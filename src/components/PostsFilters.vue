@@ -34,20 +34,24 @@ const filters = reactive<IFilters>({
   userId: null,
 });
 
+// Собираем фильтры для добавления в URL
 const query = computed(() => ({
   ...(filters.id ? { id: filters.id } : {}),
   ...(filters.userId ? { userId: filters.userId } : {}),
 }));
 
+// Синхронизируем фильтры с URL
 watchEffect(() => {
   router.replace({ query: query.value });
 });
 
+// Применяем фильтры и сбрасываем пагинацию
 function applyFilters() {
   getPosts(filters);
   setPagination(1)
 }
 
+// На mount достаем фильтры из URL и применяем их
 onMounted(() => {
   filters.id = (route.query.id as string) || null;
   filters.userId = (route.query.userId as string) || null;

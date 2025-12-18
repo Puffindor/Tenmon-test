@@ -12,6 +12,9 @@ export const usePostsStore = defineStore('posts', () => {
     perPage: PER_PAGE,
   });
 
+  // Получаем список из API, поскольку пагинация не поддерживается
+  // отправляем не обрабатываемые параметры page и perPage
+  // Использован qs работы с GET-параметрами
   async function getPosts(filters?: IFilters) {
     if (filters) filtersStore.value = filters;
 
@@ -35,6 +38,7 @@ export const usePostsStore = defineStore('posts', () => {
     pagination.perPage = PER_PAGE;
   }
 
+  // Геттер для получения фронтовой пагинации +рассчитывается общее кол-во страниц
   const paginationGetter = computed(() => {
     return {
       ...pagination,
@@ -42,6 +46,7 @@ export const usePostsStore = defineStore('posts', () => {
     };
   });
 
+  // Геттер для получения списка, с фронтовой пагинацией
   const postsGetter = computed(() => {
     const start = (pagination.page - 1) * pagination.perPage;
     const end = pagination.page * pagination.perPage;

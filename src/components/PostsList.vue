@@ -44,6 +44,9 @@ const { setPagination, getPosts } = postsStore;
 
 type PaginationDirection = 'next' | 'prev';
 
+
+// Поскольку API не поддерживает пагинацию делаем ее на фронте,
+// но отправляем не обрабатываемые параметры page и perPage для имитации
 async function onPagination(direction: PaginationDirection) {
   const { page, totalPages } = paginationGetter.value;
 
